@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+<title>Cadastrar Autores</title>
+<meta http-equiv="Content-Type" name="viewport"
+	content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="estilo.css" />
+
+</h:head>
+<h:body>
+	<div class="row" style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin-top: 10px">
+		<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="cadastroAutor.xhtml">Adicionar
+				Autores</a>
+		</div>
+		<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="cadastroLivro.xhtml">Adicionar
+				Livros</a>
+		</div>
+		<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="CadastroEditora.xhtml">Adicionar
+				Editoras</a>
+		</div>
+
+	</div>
+	<div class="col-sm-6">
+		<h3 class="page-header" style="text-align: center">
+			<strong>Cadastrar de Autor</strong>
+		</h3>
+		
+		<h:form class="col-sm-8 col-sm-offset-2">
+		<h:messages style="color:red"/>
+			<div class="form-group">
+				<label>Nome Autor: </label>
+				<h:inputText value="#{AutorBean.autor.nome}" class="form-control" id="NomeAutor"
+					required="true" requiredMessage="O Nome do Autor deve ter no minimo 2 caracteres e no maximo 50! "> 
+					<f:validateLength maximum="50" minimum="2" /> 
+					<f:ajax event="blur" render="err_Autor"/>
+				</h:inputText>
+				<h:message id="err_Autor" for="NomeAutor" style="color:red"/>
+
+				<br />
+			</div>
+
+			<div class="form-group">
+				<label>CPF: </label>
+				<h:inputText value="#{AutorBean.autor.cpf}" class="form-control" id="CPF"
+					required="true" requiredMessage="O CPF deve ter no minimo 11 caracteres e no maximo 15! ">
+					<f:validateLength maximum="15" minimum="11" />
+					<f:ajax event="blur" render="err_Cpf"/>
+				</h:inputText>
+				<!-- <h:message for="CPF" style="color:red"/>  -->
+				<h:message id="err_Cpf" for="CPF" style="color:red"/>
+
+				<br />
+			</div>
+
+			<div class="col-sm-6 col-sm-offset-3">
+				<h:commandButton action="#{AutorBean.adicionar()}" value="Adicionar"
+					styleClass="btn btn-success btn-block"/>
+			</div>
+			<br />
+		</h:form>
+	</div>
+	<div class="form-group col-sm-6">	
+		<h3 class="page-header" style="text-align: center">
+			<strong>Autores Cadastrados</strong>
+		</h3>
+		
+		<div class="col-sm-10 col-sm-offset-1">
+			<h:dataTable value="#{AutorBean.listaAutores}" var="autor"
+				class="table table-striped table-condensed table-hover">
+	
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{autor.nome}" />
+				</h:column>
+	
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="CPF" />
+					</f:facet>
+					<h:outputText value="#{autor.cpf}" />
+				</h:column>
+	
+			</h:dataTable>
+		</div>
+	</div>
+
+	
+
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</h:body>
+
+</html>

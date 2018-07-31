@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+<title>Cadastrar Capitulos</title>
+<meta http-equiv="Content-Type" name="viewport"
+	content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="estilo.css" />
+
+</h:head>
+<h:body>
+	<div class="row" style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin-top: 10px">
+		<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="cadastroAutor.xhtml">Adicionar
+				Autores</a>
+		</div>
+		<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="cadastroLivro.xhtml">Adicionar
+				Livros</a>
+		</div>
+		<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="CadastroEditora.xhtml">Adicionar
+				Editoras</a>
+		</div>
+		<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="Capitulo.xhtml">Adicionar
+				capitulos</a>
+		</div>
+
+	</div>
+	<div class="col-sm-6">
+		<h3 class="page-header" style="text-align: center">
+			<strong>Cadastrar de Capitulos</strong>
+		</h3>
+		
+		<h:form class="col-sm-8 col-sm-offset-2">
+		<h:messages style="color:red"/>
+			<div class="form-group">
+				<label>tilulo: </label>
+				<h:inputText value="#{CapituloBean.capitulo.titulo}" class="form-control" id="NomeCapitulo"
+					required="true" requiredMessage="O Nome de capitulo deve ter no minimo 2 caracteres e no maximo 50! "> 
+					<f:validateLength maximum="50" minimum="2" /> 
+					<f:ajax event="blur" render="err_Editora"/>
+				</h:inputText>
+				<h:message id="err_Editorar" for="NomeCapitulo" style="color:red"/>
+
+				<br />
+			</div>
+
+			<div class="form-group">
+				<label>inicio: </label>
+				<h:inputText value="#{CapituloBean.capitulo.inicioPagina}" class="form-control" id="Campo2"
+					required="true" requiredMessage="O Campo deve ter no minimo 1  e no maximo 30! ">
+					<f:validateLength maximum="30" minimum="1" />
+					<f:ajax event="blur" render="err_Campo"/>
+				</h:inputText>
+				<!-- <h:message for="CPF" style="color:red"/>  -->
+				<h:message id="err_Campo" for="Campo2" style="color:red"/>
+
+				<br />
+			</div>
+			<div class="form-group">
+				<label>fim: </label>
+				<h:inputText value="#{CapituloBean.capitulo.fimPagina}" class="form-control" id="Campo3"
+					required="true" requiredMessage="O Campo deve ter no minimo 1  e no maximo 30! ">
+					<f:validateLength maximum="30" minimum="1" />
+					<f:ajax event="blur" render="err_Campo3"/>
+				</h:inputText>
+				<!-- <h:message for="CPF" style="color:red"/>  -->
+				<h:message id="err_Campo3" for="Campo3" style="color:red"/>
+
+				<br />
+			</div>
+
+			<div class="col-sm-6 col-sm-offset-3">
+				<h:commandButton action="#{CapituloBean.adicionar}" value="Adicionar"
+					styleClass="btn btn-success btn-block"/>
+			</div>
+			<br />
+		</h:form>
+	</div>
+	<div class="form-group col-sm-6">	
+		<h3 class="page-header" style="text-align: center">
+			<strong>Capitulos Cadastrados</strong>
+		</h3>
+		
+		<div class="col-sm-10 col-sm-offset-1">
+			<h:dataTable value="#{CapituloBean.listaCapitulo}" var="capitulo"
+				class="table table-striped table-condensed table-hover">
+	
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="titulo" />
+					</f:facet>
+					<h:outputText value="#{capitulo.titulo}" />
+				</h:column>
+	
+				
+	
+			</h:dataTable>
+		</div>
+	</div>
+
+	
+
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</h:body>
+
+</html>

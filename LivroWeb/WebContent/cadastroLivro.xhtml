@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+<title>Cadastrar Livros</title>
+<meta http-equiv="Content-Type" name="viewport"
+	content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="estilo.css" />
+</h:head>
+<h:body>
+	<div>
+		<div class="row" style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin-top: 10px">
+			<div class="pull-right" style="padding-left: 5px; width: 150px">
+				<a class="btn btn-primary" href="cadastroAutor.xhtml">Adicionar
+					Autores</a>
+			</div>
+
+			<div class="pull-right" style="padding-left: 5px; width: 150px">
+				<a class="btn btn-primary" href="cadastroLivro.xhtml">Adicionar
+					Livros</a>
+			</div>
+			<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="CadastroEditora.xhtml">Adicionar
+				Editoras</a>
+			</div>
+				<div class="pull-right" style="padding-left: 5px; width: 150px">
+			<a class="btn btn-primary" href="Capitulo.xhtml">Adicionar
+				capitulos</a>
+		</div>
+		
+		</div>
+		
+		<LABEL id="mensagem"></LABEL>
+		
+		<div class="col-sm-6" style="margin-top:-20px;">
+			<h3 class="page-header" style="text-align: center">
+				<strong>Cadastrar Livro</strong>
+			</h3>
+		
+			<h:form class="col-sm-12" style="padding-right:10px; text-aling:left">
+				<h:messages style="color:red"/>
+				
+				<div class="form-group col-sm-7">
+					<label>Titulo: </label>
+					<h:inputText value="#{LivroBean.livro.titulo}" class="form-control" id="Titulo"
+						required="true" requiredMessage="O Titulo deve ter no minimo 5 caracteres e no maximo 50! ">
+						<f:validateLength maximum="50" minimum="5" />
+						<f:ajax event="blur" render="err_Titulo"/>
+					</h:inputText>
+					<h:message id="err_Titulo" for="Titulo" style="color:red"/>
+				</div>
+	
+				<div class="form-group col-sm-5">
+					<label>ISBN: </label>
+					<h:inputText value="#{LivroBean.livro.isbn}" class="form-control" id="ISBN"
+						required="true" requiredMessage="O ISBN deve ter no minimo 10 caracteres e no maximo 17! Exemplo:978-9-99-999999-9">
+						<f:validateLength maximum="17" minimum="10" />
+						<f:ajax event="blur" render="err_ISBN"/>
+					</h:inputText> 
+					<h:message id="err_ISBN" for="ISBN" style="color:red"/>
+				</div>
+	
+				<div class="form-group col-sm-6">
+					<label>Preço: </label>
+					<h:inputText value="#{LivroBean.livro.preco}" class="form-control" id="Preco"
+						required="true" requiredMessage="O preço deve conter R$ antes do valor e deve estar entre 0 e 99999,99! Exemplo: R$ 99,99">
+						<f:validateDoubleRange minimum = "0.00" maximum = "99999.99" />
+						<f:convertNumber type="currency" currencySymbol="R$" />
+						<f:ajax event="blur" render="err_Preco"/>
+					</h:inputText> 
+					<h:message id="err_Preco" for="Preco" style="color:red"/>
+				</div>
+	
+				<div class="form-group col-sm-6">
+					<label>Data Publicação: </label>
+					<h:inputText id="DataPublicacao" value="#{LivroBean.livro.dataPublicacao.time}"
+						class="form-control" required="true" requiredMessage="A data deve seguir o seguinte expressão dd/MM/yyyy. Exemplo: 27/05/2018 ">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+						<f:ajax event="blur" render="err_Data"/>
+					</h:inputText> 
+					<h:message id="err_Data" for="DataPublicacao" style="color:red"/>
+				</div>
+	
+				<div class="form-group">
+					<div class="col-sm-8">
+						<label>Autor: </label>
+						<h:selectOneMenu id="id_autor" value="#{LivroBean.autorId}" class="selectpicker form-control">
+								<f:selectItems value="#{LivroBean.autores}" var="autor" 
+								itemValue="#{autor.idAutor}" itemLabel="#{autor.nome}" />
+						</h:selectOneMenu>
+					</div>
+					<div class="col-sm-4" style="margin-top:23px;">
+						<label>  </label>
+						<h:commandButton action="#{LivroBean.adicionarAutor()}" value="Adicionar Autor" styleClass="btn btn-success">
+							<!-- <f:ajax execute="autor" render="tab_autores"/>  -->
+						</h:commandButton>
+						<!-- <h:commandLink value="novo Autor" action="#{livroBean.formAutor}" immediate="=true"/> -->					
+					</div>
+					<br/>
+				</div>
+				<br />
+				
+				<h:dataTable id="tab_autores" value="#{LivroBean.autoresLivro}" var="autor" class="table table-striped table-condensed table-hover">
+					<h:column>
+						<h:outputText value="#{autor.nome}"/>
+					</h:column>
+					<h:column>
+						<h:commandButton action="#{LivroBean.deletarAutor(autor)}" value="Deletar" styleClass="btn btn-success btn-block"/>
+					</h:column> 
+				</h:dataTable>
+				<br />
+				
+							<div class="form-group">
+					<div class="col-sm-8">
+						<label>Editora: </label>
+						<h:selectOneMenu id="id_editora" value="#{LivroBean.editoraId}" class="selectpicker form-control">
+								<f:selectItems value="#{LivroBean.editora}" var="editora" 
+								itemValue="#{editora.idEditora}" itemLabel="#{editora.nome}" />
+						</h:selectOneMenu>
+					</div>
+					<div class="col-sm-4" style="margin-top:23px;">
+						<label>  </label>
+						<h:commandButton action="#{LivroBean.adicionarEditora()}" value="Adicionar Editora" styleClass="btn btn-success">
+							<!-- <f:ajax execute="autor" render="tab_autores"/>  -->
+						</h:commandButton>
+						<!-- <h:commandLink value="novo Autor" action="#{livroBean.formAutor}" immediate="=true"/> -->					
+					</div>
+					<br/>
+				</div>
+				<br />
+				
+				<h:dataTable id="tab_editoras" value="#{LivroBean.editoraLivro}" var="editora" class="table table-striped table-condensed table-hover">
+					<h:column>
+						<h:outputText value="#{editora.nome}"/>
+					</h:column>
+					<h:column>
+						<h:commandButton action="#{LivroBean.deletarEditora(editora)}" value="Deletar" styleClass="btn btn-success btn-block"/>
+					</h:column>
+				</h:dataTable>
+				<br />
+				
+				
+				<div class="form-group">
+					<div class="col-sm-8">
+						<label>Capitulos: </label>
+						<h:selectOneMenu id="id_capitulo" value="#{LivroBean.capituloId}" class="selectpicker form-control">
+								<f:selectItems value="#{LivroBean.capitulo1}" var="capitulo" 
+								itemValue="#{capitulo.idCap}" itemLabel="#{capitulo.titulo}" />
+						</h:selectOneMenu>
+					</div>
+					<div class="col-sm-4" style="margin-top:23px;">
+						<label>  </label>
+						<h:commandButton action="#{LivroBean.adicionarCapitulo}" value="Adicionar Capitulo" styleClass="btn btn-success">
+							<!-- <f:ajax execute="autor" render="tab_autores"/>  -->
+						</h:commandButton>
+						<!-- <h:commandLink value="novo Autor" action="#{livroBean.formAutor}" immediate="=true"/> -->					
+					</div>
+					<br/>
+				</div>
+				<br />
+				
+				<h:dataTable id="tab_capitulos" value="#{LivroBean.capituloLivro}" var="capitulo" class="table table-striped table-condensed table-hover">
+					<h:column>
+						<h:outputText value="#{capitulo.titulo}"/>
+					</h:column>
+				
+				</h:dataTable>
+				<br />
+				
+				
+				
+				
+				<div class="col-sm-6 col-sm-offset-3">
+					<h:commandButton action="#{LivroBean.salvar()}" value="Cadastrar Livro" styleClass="btn btn-success btn-block">
+						<f:ajax execute="@form" render="@form : tab_livros"/>
+					</h:commandButton>
+				</div>
+			</h:form>	
+		</div>
+		<h:form id="form_tab_liros">
+		<div class="col-sm-6" style="margin-top:-20px;">
+			<h3 class="page-header" style="text-align: center">
+				<strong>Livros Cadastrados</strong>
+			</h3>
+		
+			<div class="col-sm-12" style="padding-right:10px; text-aling:left">
+				<h:dataTable id="tab_livros" value="#{LivroBean.livros}" var="livro"
+					class="table table-striped table-condensed table-hover">
+	
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Titulo" />
+						</f:facet>
+						<h:outputText value="#{livro.titulo}" />
+					</h:column>
+	
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="ISBN" />
+						</f:facet>
+						<h:outputText value="#{livro.isbn}" />
+					</h:column>
+	
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Preço" />
+						</f:facet>
+						<h:outputText value="#{livro.preco}" />
+					</h:column>
+	
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Data Publicação" />
+						</f:facet>
+						<h:outputText value="#{livro.dataPublicacao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+						</h:outputText>
+					</h:column>
+	
+					<!--<h:column>
+						<f:facet name="header">
+							<h:outputText value="Autor(es)" />
+						</f:facet>
+						<h:outputText value="#{livro.autornomes}" />
+					</h:column>-->
+					
+					<h:column>
+						<f:facet name="header" >
+							<h:outputText value=""/>
+						</f:facet>
+						<h:commandButton action="#{LivroBean.carregar(livro)}" value="Alterar" styleClass="btn btn-success btn-block"/>						
+					</h:column>
+					<h:column>
+						<f:facet name="header" >
+							<h:outputText value=""/>
+						</f:facet>
+						<h:commandButton action="#{LivroBean.deletar(livro)}" value="Deletar" styleClass="btn btn-success btn-block"/>
+					</h:column>
+				</h:dataTable>
+			</div>		
+		</div>
+		</h:form>
+	</div>
+
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</h:body>
+
+</html>
